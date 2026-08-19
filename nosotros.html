@@ -1,0 +1,53 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosotros - Mini Paint Pro</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <style>
+        :root {
+            --primario: #635bff;
+            --primario-oscuro: #4d46d8;
+            --fondo: #f0f0f0;
+            --texto: #333333;
+            --blanco: #ffffff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background-color: var(--fondo); color: var(--texto); display: flex; flex-direction: column; min-height: 100vh; }
+        header { background-color: var(--primario); color: var(--blanco); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .logo h1 { font-size: 1.5rem; color: var(--blanco); }
+        nav ul { display: flex; list-style: none; gap: 15px; }
+        nav a { color: var(--blanco); text-decoration: none; font-weight: bold; padding: 5px 10px; border-radius: 4px; }
+        nav a:hover, nav a.active { background-color: var(--primario-oscuro); }
+        main { flex: 1; max-width: 800px; margin: 2rem auto; padding: 20px; background: var(--blanco); border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h2 { margin-bottom: 1rem; color: var(--primario); }
+        p { line-height: 1.6; margin-bottom: 1rem; }
+        footer { background-color: #222; color: var(--blanco); text-align: center; padding: 1rem; margin-top: auto; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo"><h1>Mini Paint Pro</h1></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="nosotros.html" class="active">Nosotros</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="portfolio.html">Portafolio</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Sobre Nosotros</h2>
+            <p>Somos un equipo enfocado en desarrollar herramientas digitales intuitivas y accesibles para la creación gráfica en la web.</p>
+            <p>Mini Paint Pro nació como un proyecto integrador inicial para demostrar las capacidades del desarrollo Front End moderno utilizando tecnologías nativas como HTML5, CSS3 y JavaScript.</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2026 Mini Paint Pro - Proyecto Estudiantil</p>
+    </footer>
+</body>
+</html>

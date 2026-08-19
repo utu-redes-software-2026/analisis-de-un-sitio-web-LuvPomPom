@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Paint Pro - Proyecto Integrador</title>
+    <!-- Actividad 10: Favicon -->
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <style>
+        /* Actividad 5: Variables CSS (:root) */
+        :root {
+            --primario: #635bff;
+            --primario-oscuro: #4d46d8;
+            --fondo: #f0f0f0;
+            --texto: #333333;
+            --blanco: #ffffff;
+            --peligro: #dc3545;
+            --peligro-oscuro: #a71d2a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--fondo);
+            color: var(--texto);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Estructura semántica: Encabezado y Navegación */
+        header {
+            background-color: var(--primario);
+            color: var(--blanco);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            color: var(--blanco);
+        }
+
+        /* Sección 2 de la consigna: Enlaces entre páginas */
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 15px;
+        }
+
+        nav a {
+            color: var(--blanco);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: var(--primario-oscuro);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .toolbar {
+            background: var(--blanco);
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+            max-width: 800px;
+            margin-bottom: 15px;
+        }
+
+        .tool-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border-right: 1px solid #ccc;
+            padding-right: 10px;
+        }
+
+        .tool-group:last-child {
+            border-right: none;
+        }
+
+        canvas {
+            border: 2px solid var(--texto);
+            background-color: var(--blanco);
+            cursor: crosshair;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            touch-action: none;
+        }
+
+        button, select {
+            padding: 6px 10px;
+            background-color: var(--primario);
+            color: var(--blanco);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        button:hover, select:hover {
+            background-color: var(--primario-oscuro);
+        }
+
+        button.active {
+            background-color: var(--primario-oscuro);
+            font-weight: bold;
+        }
+
+        button.clear {
+            background-color: var(--peligro);
+        }
+
+        button.clear:hover {
+            background-color: var(--peligro-oscuro);
+        }
+
+        .color-palette {
+            display: flex;
+            gap: 4px;
+        }
+
+        .color-btn {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        label {
+            font-size: 13px;
+            color: var(--texto);
+        }
+
+        /* Estructura semántica: Pie de página */
+        footer {
+            background-color: #222;
+            color: var(--blanco);
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <!-- Actividad 1: Nombre de la app o marca -->
+            <h1>Mini Paint Pro</h1>
+        </div>
+        <!-- Enlaces requeridos en el punto 2 y Actividad 3 -->
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="portfolio.html">Portafolio</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="paint-container">
+            <div class="toolbar">
+                <div class="tool-group">
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                    <button onclick="document.getElementById('fileInput').click()">Abrir Imagen</button>
+                    <button id="saveBtn">Guardar</button>
+                </div>
+
+                <div class="tool-group">
+                    <button id="toolPencil" class="active">Pincel</button>
+                    <button id="toolEraser">Borrador</button>
+                    <button id="toolFill">Rellenar</button>
+                    <select id="shapeSelect">
+                        <option value="none">Libre</option>
+                        <option value="line">Línea</option>
+                        <option value="rect">Rectángulo</option>
+                        <option value="circle">Círculo</option>
+                    </select>
+                </div>
+
+                <div class="tool-group">
+                    <label>Color: <input type="color" id="colorPicker" value="#000000"></label>
+                    <div class="color-palette">
+                        <button class="color-btn" style="background: #000000;" onclick="setColor('#000000')"></button>
+                        <button class="color-btn" style="background: #ff0000;" onclick="setColor('#ff0000')"></button>
+                        <button class="color-btn" style="background: #00ff00;" onclick="setColor('#00ff00')"></button>
+                        <button class="color-btn" style="background: #0000ff;" onclick="setColor('#0000ff')"></button>
+                        <button class="color-btn" style="background: #ffff00;" onclick="setColor('#ffff00')"></button>
+                    </div>
+                </div>
+
+                <div class="tool-group">
+                    <label>Grosor: <input type="range" id="brushSize" min="1" max="50" value="5"></label>
+                    <label>Opacidad: <input type="range" id="opacity" min="0.1" max="1" step="0.1" value="1"></label>
+                </div>
+
+                <div class="tool-group">
+                    <button id="clearBtn" class="clear">Limpiar Todo</button>
+                </div>
+            </div>
+
+            <canvas id="paintCanvas" width="700" height="500"></canvas>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Mini Paint Pro - Proyecto Estudiantil</p>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('paintCanvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        
+        const colorPicker = document.getElementById('colorPicker');
+        const brushSize = document.getElementById('brushSize');
+        const opacity = document.getElementById('opacity');
+        const clearBtn = document.getElementById('clearBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const fileInput = document.getElementById('fileInput');
+        const shapeSelect = document.getElementById('shapeSelect');
+
+        const toolPencil = document.getElementById('toolPencil');
+        const toolEraser = document.getElementById('toolEraser');
+        const toolFill = document.getElementById('toolFill');
+
+        let isDrawing = false;
+        let currentTool = 'pencil';
+        let startX = 0;
+        let startY = 0;
+        let snapshot = null;
+
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        
+        function resetCanvas() {
+            ctx.globalAlpha = 1.0;
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        resetCanvas();
+
+        function setActiveTool(button, toolName) {
+            document.querySelectorAll('.tool-group button').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            currentTool = toolName;
+        }
+
+        toolPencil.addEventListener('click', () => setActiveTool(toolPencil, 'pencil'));
+        toolEraser.addEventListener('click', () => setActiveTool(toolEraser, 'eraser'));
+        toolFill.addEventListener('click', () => setActiveTool(toolFill, 'fill'));
+
+        function setColor(hex) {
+            colorPicker.value = hex;
+        }
+
+        fileInput.addEventListener('change', function() {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    resetCanvas();
+                    
+                    let hRatio = canvas.width / img.width;
+                    let vRatio = canvas.height / img.height;
+                    let ratio = Math.min(hRatio, vRatio);
+                    let centerShiftX = (canvas.width - img.width * ratio) / 2;
+                    let centerShiftY = (canvas.height - img.height * ratio) / 2;
+
+                    ctx.drawImage(img, 0, 0, img.width, img.height, centerShiftX, centerShiftY, img.width * ratio, img.height * ratio);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+            fileInput.value = '';
+        });
+
+        function getCoordinates(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: clientX - rect.left,
+                y: clientY - rect.top
+            };
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const coords = getCoordinates(e);
+            startX = coords.x;
+            startY = coords.y;
+
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+
+            snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+            if (currentTool === 'fill') {
+                floodFill(Math.floor(startX), Math.floor(startY), colorPicker.value);
+                isDrawing = false;
+            } else if (shapeSelect.value === 'none') {
+                draw(e);
+            }
+        }
+
+        function stopDrawing() {
+            if (!isDrawing) return;
+            isDrawing = false;
+            ctx.beginPath();
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+
+            const coords = getCoordinates(e);
+            const x = coords.x;
+            const y = coords.y;
+
+            ctx.lineWidth = brushSize.value;
+
+            if (currentTool === 'eraser') {
+                ctx.globalAlpha = 1.0;
+                ctx.strokeStyle = '#ffffff';
+            } else {
+                ctx.globalAlpha = parseFloat(opacity.value);
+                ctx.strokeStyle = colorPicker.value;
+            }
+
+            const shape = shapeSelect.value;
+
+            if (shape === 'none') {
+                ctx.lineTo(x, y);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+            } else {
+                ctx.globalAlpha = 1.0;
+                ctx.putImageData(snapshot, 0, 0);
+                
+                ctx.globalAlpha = parseFloat(opacity.value);
+                ctx.beginPath();
+
+                if (shape === 'line') {
+                    ctx.moveTo(startX, startY);
+                    ctx.lineTo(x, y);
+                } else if (shape === 'rect') {
+                    ctx.rect(startX, startY, x - startX, y - startY);
+                } else if (shape === 'circle') {
+                    const radius = Math.sqrt(Math.pow(startX - x, 2) + Math.pow(startY - y, 2));
+                    ctx.arc(startX, startY, radius, 0, 2 * Math.PI);
+                }
+                ctx.stroke();
+            }
+        }
+
+        function floodFill(startX, startY, fillColorHex) {
+            ctx.globalAlpha = 1.0;
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imgData.data;
+
+            const targetPos = (startY * canvas.width + startX) * 4;
+            const startR = data[targetPos];
+            const startG = data[targetPos + 1];
+            const startB = data[targetPos + 2];
+            const startA = data[targetPos + 3];
+
+            const fillR = parseInt(fillColorHex.substr(1,2), 16);
+            const fillG = parseInt(fillColorHex.substr(3,2), 16);
+            const fillB = parseInt(fillColorHex.substr(5,2), 16);
+
+            if (startR === fillR && startG === fillG && startB === fillB) return;
+
+            const pixelStack = [[startX, startY]];
+
+            while (pixelStack.length > 0) {
+                const [x, y] = pixelStack.pop();
+                const currentPos = (y * canvas.width + x) * 4;
+
+                if (x < 0 || x >= canvas.width || y < 0 || y >= canvas.height) continue;
+
+                if (data[currentPos] === startR &&
+                    data[currentPos + 1] === startG &&
+                    data[currentPos + 2] === startB &&
+                    data[currentPos + 3] === startA) {
+
+                    data[currentPos] = fillR;
+                    data[currentPos + 1] = fillG;
+                    data[currentPos + 2] = fillB;
+                    data[currentPos + 3] = 255;
+
+                    pixelStack.push([x + 1, y]);
+                    pixelStack.push([x - 1, y]);
+                    pixelStack.push([x, y + 1]);
+                    pixelStack.push([x, y - 1]);
+                }
+            }
+            ctx.putImageData(imgData, 0, 0);
+        }
+
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseleave', stopDrawing);
+
+        canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startDrawing(e); });
+        canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e); });
+        canvas.addEventListener('touchend', stopDrawing);
+
+        clearBtn.addEventListener('click', () => {
+            if (confirm("¿Seguro que quieres borrar todo el lienzo?")) {
+                resetCanvas();
+            }
+        });
+
+        saveBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'mi-dibujo-paint.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+    </script>
+</body>
+</html>
