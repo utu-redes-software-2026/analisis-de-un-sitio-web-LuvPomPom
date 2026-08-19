@@ -1,40 +1,20 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacto - Mini Paint Pro</title>
+    <!-- Actividad 10: Favicon -->
     <link rel="icon" type="image/png" href="assets/favicon.png">
-    <style>
-        :root {
-            --primario: #635bff;
-            --primario-oscuro: #4d46d8;
-            --fondo: #f0f0f0;
-            --texto: #333333;
-            --blanco: #ffffff;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: Arial, sans-serif; background-color: var(--fondo); color: var(--texto); display: flex; flex-direction: column; min-height: 100vh; }
-        header { background-color: var(--primario); color: var(--blanco); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-        .logo h1 { font-size: 1.5rem; color: var(--blanco); }
-        nav ul { display: flex; list-style: none; gap: 15px; }
-        nav a { color: var(--blanco); text-decoration: none; font-weight: bold; padding: 5px 10px; border-radius: 4px; }
-        nav a:hover, nav a.active { background-color: var(--primario-oscuro); }
-        main { flex: 1; max-width: 600px; width: 100%; margin: 2rem auto; padding: 20px; background: var(--blanco); border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        h2 { margin-bottom: 1rem; color: var(--primario); }
-        form { display: flex; flex-direction: column; gap: 15px; }
-        label { font-weight: bold; font-size: 14px; }
-        input[type="text"], input[type="email"], textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
-        textarea { resize: vertical; min-height: 100px; }
-        button[type="submit"] { background-color: var(--primario); color: var(--blanco); border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: bold; }
-        button[type="submit"]:hover { background-color: var(--primario-oscuro); }
-        .mensaje-exito { color: green; font-weight: bold; display: none; margin-top: 10px; }
-        footer { background-color: #222; color: var(--blanco); text-align: center; padding: 1rem; margin-top: auto; }
-    </style>
+    <!-- Vinculación CSS global -->
+    <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
+
     <header>
-        <div class="logo"><h1>Mini Paint Pro</h1></div>
+        <div class="logo">
+            <h1>Mini Paint Pro</h1>
+        </div>
         <nav>
             <ul>
                 <li><a href="index.html">Inicio</a></li>
@@ -45,7 +25,8 @@
             </ul>
         </nav>
     </header>
-    <main>
+
+    <main class="contact-page">
         <section>
             <h2>Contacto</h2>
             <form id="contactForm">
@@ -66,27 +47,12 @@
             <p id="mensajeExito" class="mensaje-exito">¡Mensaje enviado con éxito!</p>
         </section>
     </main>
+
     <footer>
         <p>&copy; 2026 Mini Paint Pro - Proyecto Estudiantil</p>
     </footer>
 
-    <script>
-        // Actividad 8: Validación de formulario con JavaScript
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const nombre = document.getElementById('nombre').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const mensaje = document.getElementById('mensaje').value.trim();
-
-            if (nombre === '' || email === '' || mensaje === '') {
-                alert('Por favor, completa todos los campos.');
-                return;
-            }
-
-            document.getElementById('mensajeExito').style.display = 'block';
-            this.reset();
-        });
-    </script>
+    <!-- Vinculación JavaScript específica de la página -->
+    <script src="javascript/contacto.js"></script>
 </body>
 </html>

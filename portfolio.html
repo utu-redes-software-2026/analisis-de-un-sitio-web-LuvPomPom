@@ -4,31 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portafolio - Mini Paint Pro</title>
+    <!-- Actividad 10: Favicon -->
     <link rel="icon" type="image/png" href="assets/favicon.png">
-    <style>
-        :root {
-            --primario: #635bff;
-            --primario-oscuro: #4d46d8;
-            --fondo: #f0f0f0;
-            --texto: #333333;
-            --blanco: #ffffff;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: Arial, sans-serif; background-color: var(--fondo); color: var(--texto); display: flex; flex-direction: column; min-height: 100vh; }
-        header { background-color: var(--primario); color: var(--blanco); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-        .logo h1 { font-size: 1.5rem; color: var(--blanco); }
-        nav ul { display: flex; list-style: none; gap: 15px; }
-        nav a { color: var(--blanco); text-decoration: none; font-weight: bold; padding: 5px 10px; border-radius: 4px; }
-        nav a:hover, nav a.active { background-color: var(--primario-oscuro); }
-        main { flex: 1; max-width: 800px; margin: 2rem auto; padding: 20px; background: var(--blanco); border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        h2 { margin-bottom: 1rem; color: var(--primario); }
-        p { line-height: 1.6; margin-bottom: 1rem; }
-        footer { background-color: #222; color: var(--blanco); text-align: center; padding: 1rem; margin-top: auto; }
-    </style>
+    <!-- Vinculación CSS global -->
+    <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
+
     <header>
-        <div class="logo"><h1>Mini Paint Pro</h1></div>
+        <div class="logo">
+            <h1>Mini Paint Pro</h1>
+        </div>
         <nav>
             <ul>
                 <li><a href="index.html">Inicio</a></li>
@@ -39,7 +25,8 @@
             </ul>
         </nav>
     </header>
-    <main>
+
+    <main class="content-page">
         <section>
             <h2>Portafolio de Proyectos</h2>
             <p>Aquí se destacan las herramientas interactivas desarrolladas hasta la fecha:</p>
@@ -49,8 +36,10 @@
             </article>
         </section>
     </main>
+
     <footer>
         <p>&copy; 2026 Mini Paint Pro - Proyecto Estudiantil</p>
     </footer>
+
 </body>
 </html>
